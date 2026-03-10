@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Final Protocol</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #00ff41;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        #game-container {
+            border: 2px solid #00ff41;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+        }
+        .hp-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #333;
+            margin: 10px 0;
+        }
+        #boss-hp, #player-hp {
+            height: 100%;
+            background-color: #ff4141;
+            transition: width 0.3s ease;
+        }
+        #player-hp { background-color: #4141ff; }
+        button {
+            background: transparent;
+            color: #00ff41;
+            border: 1px solid #00ff41;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        button:hover {
+            background: #00ff41;
+            color: #1a1a1a;
+        }
+        .hidden { display: none; }
+        #log { margin-top: 20px; font-size: 0.9rem; color: #aaa; }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <h1>UNIT-776 BOSS BATTLE</h1>
+        
+        <div id="battle-screen">
+            <p>ROBOT HP</p>
+            <div class="hp-bar"><div id="boss-hp" style="width: 100%;"></div></div>
+            
+            <p>YOUR HP</p>
+            <div class="hp-bar"><div id="player-hp" style="width: 100%;"></div></div>
+
+            <button id="attack-btn">LAUNCH ATTACK</button>
+            <div id="log">The robot eyes you coldly...</div>
+        </div>
+
+        <div id="result-screen" class="hidden">
+            <h2 id="result-text"></h2>
+            <div id="reward-link" class="hidden">
+                <p>Access Granted:</p>
+                <a href="https://docs.google.com/presentation/d/1Z45dJWrDPY7L8e3TPqxQfkhMsR0JmLNcOwx-ubleNnM/edit?slide=id.p#slide=id.p" style="color: yellow;">View Secret Documents</a>
+            </div>
+        </div>
+
+        <div id="locked-screen" class="hidden">
+            <h2 style="color: red;">SYSTEM PERMANENTLY LOCKED</h2>
+            <p>You had one chance. You failed. Access to the Unit-776 core is terminated.</p>
+        </div>
+    </div>
+
+    <script>
+        const bossHpEl = document.getElementById('boss-hp');
+        const playerHpEl = document.getElementById('player-hp');
+        const attackBtn = document.getElementById('attack-btn');
+        const logEl = document.getElementById('log');
+        const battleScreen = document.getElementById('battle-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const resultText = document.getElementById('result-text');
+        const rewardLink = document.getElementById('reward-link');
+        const lockedScreen = document.getElementById('locked-screen');
+
+        let bossHP = 100;
+        let playerHP = 100;
+
+        // CHECK IF ALREADY PLAYED
+        window.onload = () => {
+            const gameState = localStorage.getItem
